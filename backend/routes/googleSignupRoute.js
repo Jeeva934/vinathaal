@@ -2,7 +2,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { OAuth2Client } = require("google-auth-library");
-const createDbPool = require("../awsdb");
+const createdb = require("../awsdb");
 //const config = require("../config"); // DB config
 
 const router = express.Router();

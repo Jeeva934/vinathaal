@@ -8,7 +8,7 @@ const cors = require('cors');
 // --- Import Factory Functions & Routers ---
 const loadConfig = require('./utils/config'); // Your async config loader
 // const createDbPool = require('./awsdb');      // Factory for the DB pool
-const DbPool = require('./db');      // Factory for the DB pool
+const pool = require('./db');      // Database pool
 const createTransporter = require('./utils/mailer'); // Factory for the mail transporter
 const createPerplexityService = require('./services/generateWithPerplexity');
 const authRoutes = require('./routes/auth');       // Auth router factory
@@ -40,7 +40,7 @@ async function startServer() {
     // 2. INITIALIZE SERVICES
     // Create dependencies that rely on the loaded configuration.
     // const db = createDbPool(config);
-    const db = DbPool(config);
+    const db = pool;
     const transporter = createTransporter(config);
     const protect = createTokenAuthMiddleware(db);
     // 3. CREATE EXPRESS APP
