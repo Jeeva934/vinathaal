@@ -2,6 +2,7 @@
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const cors = require('cors');
+const initializeDb = require('./db');
 //const bodyParser = require('body-parser');
 
 
@@ -40,7 +41,7 @@ async function startServer() {
     // 2. INITIALIZE SERVICES
     // Create dependencies that rely on the loaded configuration.
     // const db = createDbPool(config);
-    const db = pool;
+    const db = await initializeDb();
     const transporter = createTransporter(config);
     const protect = createTokenAuthMiddleware(db);
     // 3. CREATE EXPRESS APP

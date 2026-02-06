@@ -32,18 +32,33 @@
 // };
 
 // A:\Vinathaal\backend\config\db.js (or wherever your DB is initialized)
-const mysql = require('mysql2/promise'); // <--- Ensure this is /promise
-const dotenv = require('dotenv');
-dotenv.config();
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME || 'vinathaal_db',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+async function initializeDb() {
+    // Ithu 'database.sqlite' nu oru file-ah create pannum
+    const db = await open({
+        filename: './database.sqlite',
+        driver: sqlite3.Database
+    });
 
-module.exports = pool;
+    // Users table create pannuvom
+    await db.exec(`
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id_token TEXT,
+            name TEXT,
+            email TEXT UNIQUE,
+            password_hash TEXT,
+            role TEXT,
+            api_token TEXT,
+            reset_token TEXT,
+            reset_token_expires TEXT
+        )
+    `);
+
+    console.log("SQLite Database & Table Created!");
+    return db;
+}
+
+module.exports = initializeDb;

@@ -30,6 +30,8 @@
     "nodemailer": "^7.0.6",
     "pdf-lib": "^1.17.1",
     "sharp": "^0.34.3",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
     "tesseract.js": "^6.0.1"
   },
   "type": "commonjs"
